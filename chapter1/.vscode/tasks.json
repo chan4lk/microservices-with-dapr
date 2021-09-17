@@ -3,7 +3,7 @@
 	"tasks": [
 		{
 			"appId": "hello-world",
-			"appPort": 5291,
+			"appPort": 5000,
 			"httpPort": 5010,
 			"label": "daprd-debug",
 			"type": "daprd",
