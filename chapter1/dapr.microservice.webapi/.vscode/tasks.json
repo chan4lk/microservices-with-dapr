@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"appId": "hello-world",
+			"appPort": 5291,
+			"httpPort": 5010,
+			"label": "daprd-debug",
+			"type": "daprd",
+			"dependsOn": "build"
+		},
+		{
+			"appId": "hello-world",
+			"label": "daprd-down",
+			"type": "daprd-down"
+		}
+	]
+}
