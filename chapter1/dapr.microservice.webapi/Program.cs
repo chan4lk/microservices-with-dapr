@@ -25,7 +25,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapSubscribeHandler();
+//app.MapSubscribeHandler();
 
 
 app.Run();

@@ -4,7 +4,6 @@ using Dapr;
 namespace dapr.microservice.webapi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
 public class HelloWorldController : ControllerBase
 {
   
