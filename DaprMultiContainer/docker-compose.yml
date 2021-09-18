@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  daprfrontend:
+    image: ${DOCKER_REGISTRY-}daprfrontend
+    build:
+      context: .
+      dockerfile: DaprFrontEnd/Dockerfile
