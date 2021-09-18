@@ -375,3 +375,4 @@ MigrationBackup/
 
 # macOS files
 .DS_Store
+/XeroDemo/Identity/XeroDemo.Identity.Web/AspIdUsers.db

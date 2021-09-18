@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  xerodemo.identity.web:
+    image: ${DOCKER_REGISTRY-}xerodemoidentityweb
+    build:
+      context: .
+      dockerfile: Identity/XeroDemo.Identity.Web/Dockerfile
