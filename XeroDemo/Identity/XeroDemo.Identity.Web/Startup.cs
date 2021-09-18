@@ -3,6 +3,8 @@
 
 
 using IdentityServer4;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -65,7 +67,15 @@ namespace XeroDemo.Identity.Web
                     // set the redirect URI to https://localhost:5001/signin-google
                     options.ClientId = "copy client ID from Google here";
                     options.ClientSecret = "copy client secret from Google here";
-                });
+                })
+                .AddOpenIdConnect("xero", "Xero", options => Configuration.Bind("Xero", options));
+
+            services.Configure<OpenIdConnectOptions>("xero", options =>
+            {
+                options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+            });
         }
 
         public void Configure(IApplicationBuilder app)
