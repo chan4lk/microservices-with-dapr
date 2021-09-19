@@ -5,8 +5,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Xero_ClientId=9352203A44934F10AB1AE6C4EDFE67A2
-      - Xero_ClientSecret=Vh18QLA65yJXDsew76G4Wg8a1V44ypw73-FReC_R0ntisHam
+      - Xero__ClientId=9352203A44934F10AB1AE6C4EDFE67A2
+      - Xero__ClientSecret=Vh18QLA65yJXDsew76G4Wg8a1V44ypw73-FReC_R0ntisHam
     ports:
       - "64096:80"
       - "64097:443"
