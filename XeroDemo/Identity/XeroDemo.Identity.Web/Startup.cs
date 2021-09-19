@@ -68,7 +68,14 @@ namespace XeroDemo.Identity.Web
                     options.ClientId = "copy client ID from Google here";
                     options.ClientSecret = "copy client secret from Google here";
                 })
-                .AddOpenIdConnect("xero", "Xero", options => Configuration.Bind("Xero", options));
+                .AddOpenIdConnect("xero", "Xero", options =>
+                {
+                    options.ClientId = Configuration.GetValue<string>("Xero_ClientId");
+                    options.ClientSecret = Configuration.GetValue<string>("Xero_ClientSecret");
+                    options.ResponseType = Configuration.GetValue<string>("Xero:ResponseType");
+                    options.Authority = Configuration.GetValue<string>("Xero:Authority");
+                    options.CallbackPath = Configuration.GetValue<string>("Xero:CallbackPath");
+                });
 
             services.Configure<OpenIdConnectOptions>("xero", options =>
             {
