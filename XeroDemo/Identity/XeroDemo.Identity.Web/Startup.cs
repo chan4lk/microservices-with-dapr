@@ -12,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 using XeroDemo.Identity.Web.Data;
 using XeroDemo.Identity.Web.Models;
 
@@ -75,6 +78,11 @@ namespace XeroDemo.Identity.Web
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
+                options.Events = new OpenIdConnectEvents
+                {
+                    OnTokenValidated = OnTokenValidated()
+                };
+                options.SignedOutRedirectUri = "/";
             });
         }
 
@@ -96,5 +104,25 @@ namespace XeroDemo.Identity.Web
                 endpoints.MapDefaultControllerRoute();
             });
         }
+
+        private static Func<TokenValidatedContext, Task> OnTokenValidated()
+        {
+            return context =>
+            {
+                var logger = context.HttpContext.RequestServices.GetService<ILogger<Startup>>();
+
+                var token = new
+                {
+                    AccessToken = context.TokenEndpointResponse.AccessToken,
+                    RefreshToken = context.TokenEndpointResponse.RefreshToken,
+                    ExpiresAtUtc = DateTime.UtcNow.AddSeconds(Convert.ToDouble(context.TokenEndpointResponse.ExpiresIn))
+                };
+
+                logger.LogInformation("@token", token);
+
+                return Task.CompletedTask;
+            };
+        }
+
     }
 }
