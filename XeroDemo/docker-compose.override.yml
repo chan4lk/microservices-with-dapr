@@ -42,9 +42,9 @@ services:
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
-  xerodemo.web.planner:
+  xerodemo.planner.web:
     environment:
-      - DOTNET_RUNNING_IN_CONTAINER=false
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "64091:80"
+      - "80"
 
