@@ -6,6 +6,8 @@
         <p>Below is the list of applications you have given permission to and the resources they have access to.</p>
     </div>
 
+    <span>@TempData["token"]</span>
+
     @if (Model.Grants.Any() == false)
     {
         <div class="row">

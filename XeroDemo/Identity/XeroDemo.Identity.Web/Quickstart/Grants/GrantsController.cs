@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using Dapr.Client;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Services;
@@ -25,16 +26,19 @@ namespace IdentityServerHost.Quickstart.UI
         private readonly IClientStore _clients;
         private readonly IResourceStore _resources;
         private readonly IEventService _events;
+        private readonly DaprClient _daprClient;
 
         public GrantsController(IIdentityServerInteractionService interaction,
             IClientStore clients,
             IResourceStore resources,
-            IEventService events)
+            IEventService events,
+            DaprClient daprClient)
         {
             _interaction = interaction;
             _clients = clients;
             _resources = resources;
             _events = events;
+            _daprClient = daprClient;
         }
 
         /// <summary>
@@ -43,6 +47,8 @@ namespace IdentityServerHost.Quickstart.UI
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var token = await _daprClient.GetStateEntryAsync<string>("statestore", "token");
+            TempData["token"] = token.Value;
             return View("Index", await BuildViewModelAsync());
         }
 
