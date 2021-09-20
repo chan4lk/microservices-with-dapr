@@ -6,3 +6,10 @@ services:
     build:
       context: .
       dockerfile: Identity/XeroDemo.Identity.Web/Dockerfile
+
+  xerodemo.web.planner:
+    image: ${DOCKER_REGISTRY-}xerodemowebplanner
+    build:
+      context: .
+      dockerfile: Web/XeroDemo.Web.Planner/Dockerfile
+
