@@ -7,9 +7,26 @@ services:
       context: .
       dockerfile: Identity/XeroDemo.Identity.Web/Dockerfile
 
+  xerodemo.planner.api:
+    image: ${DOCKER_REGISTRY-}xerodemoplannerapi
+    build:
+      context: .
+      dockerfile: Planner/XeroDemo.Planner.Api/Dockerfile
+
+  xerodemo.tenent.api:
+    image: ${DOCKER_REGISTRY-}xerodemotenentapi
+    build:
+      context: .
+      dockerfile: TenentService/XeroDemo.TenentService.Api/Dockerfile
+
+  xerodemo.payment.api:
+    image: ${DOCKER_REGISTRY-}xerodemopaymentapi
+    build:
+      context: .
+      dockerfile: Payment/XeroDemo.Payment.Api/Dockerfile
+
   xerodemo.web.planner:
     image: ${DOCKER_REGISTRY-}xerodemowebplanner
     build:
       context: .
       dockerfile: Web/XeroDemo.Web.Planner/Dockerfile
-

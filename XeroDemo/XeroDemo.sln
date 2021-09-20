@@ -11,7 +11,19 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{D9DBBD55-25D9-4157-B0C6-FF8CDC3BD23F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XeroDemo.Web.Planner", "Web\XeroDemo.Web.Planner\XeroDemo.Web.Planner.csproj", "{E0EC0501-D990-431D-A42A-F1091104CE6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XeroDemo.Web.Planner", "Web\XeroDemo.Web.Planner\XeroDemo.Web.Planner.csproj", "{E0EC0501-D990-431D-A42A-F1091104CE6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TenentService", "TenentService", "{318A387D-97AC-4B00-858F-AF69720F7500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XeroDemo.TenentService.Api", "TenentService\XeroDemo.TenentService.Api\XeroDemo.TenentService.Api.csproj", "{3CA55FB5-7E6E-4705-A588-E9E7FBDC951E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Planner", "Planner", "{E1D2D208-01A8-47DB-A2A9-2C615FF9697C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XeroDemo.Planner.Api", "Planner\XeroDemo.Planner.Api\XeroDemo.Planner.Api.csproj", "{ABF3E539-EB70-45B6-81C1-6C34AA60F391}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{5B736E62-0025-44E3-BD91-699B9AE52C78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XeroDemo.Payment.Api", "Payment\XeroDemo.Payment.Api\XeroDemo.Payment.Api.csproj", "{C9F6EBD7-E067-4D6C-B8DA-638165C569E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +43,18 @@ Global
 		{E0EC0501-D990-431D-A42A-F1091104CE6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0EC0501-D990-431D-A42A-F1091104CE6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0EC0501-D990-431D-A42A-F1091104CE6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CA55FB5-7E6E-4705-A588-E9E7FBDC951E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CA55FB5-7E6E-4705-A588-E9E7FBDC951E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CA55FB5-7E6E-4705-A588-E9E7FBDC951E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CA55FB5-7E6E-4705-A588-E9E7FBDC951E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABF3E539-EB70-45B6-81C1-6C34AA60F391}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABF3E539-EB70-45B6-81C1-6C34AA60F391}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABF3E539-EB70-45B6-81C1-6C34AA60F391}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABF3E539-EB70-45B6-81C1-6C34AA60F391}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F6EBD7-E067-4D6C-B8DA-638165C569E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F6EBD7-E067-4D6C-B8DA-638165C569E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F6EBD7-E067-4D6C-B8DA-638165C569E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F6EBD7-E067-4D6C-B8DA-638165C569E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +62,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{580BBC3F-3401-480D-946D-B6B2D7C724BA} = {9430D68D-1E01-4B1D-B9EA-895D08896096}
 		{E0EC0501-D990-431D-A42A-F1091104CE6A} = {D9DBBD55-25D9-4157-B0C6-FF8CDC3BD23F}
+		{3CA55FB5-7E6E-4705-A588-E9E7FBDC951E} = {318A387D-97AC-4B00-858F-AF69720F7500}
+		{ABF3E539-EB70-45B6-81C1-6C34AA60F391} = {E1D2D208-01A8-47DB-A2A9-2C615FF9697C}
+		{C9F6EBD7-E067-4D6C-B8DA-638165C569E5} = {5B736E62-0025-44E3-BD91-699B9AE52C78}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D1570123-8C21-4D69-846B-758010EDB042}
