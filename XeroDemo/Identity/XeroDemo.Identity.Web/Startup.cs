@@ -122,7 +122,7 @@ namespace XeroDemo.Identity.Web
 
                 logger.LogInformation("@token", token);
 
-                await daprClient.SaveStateAsync("statestore", "token", context.TokenEndpointResponse);
+                await daprClient.SaveStateAsync("statestore", "token", context.TokenEndpointResponse.IdToken);
 
             };
         }

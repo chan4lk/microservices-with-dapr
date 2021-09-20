@@ -25,6 +25,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{5B73
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XeroDemo.Payment.Api", "Payment\XeroDemo.Payment.Api\XeroDemo.Payment.Api.csproj", "{C9F6EBD7-E067-4D6C-B8DA-638165C569E5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{D4EE6524-0C29-4FCA-99FA-F97EE6FA4FC2}"
+	ProjectSection(SolutionItems) = preProject
+		Components\pubsub.yaml = Components\pubsub.yaml
+		Components\statestore.yaml = Components\statestore.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

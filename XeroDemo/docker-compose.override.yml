@@ -12,6 +12,7 @@ services:
       - "64097:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - "./Components/:/components"
 
   xerodemo.planner.api:
     environment:
@@ -30,6 +31,7 @@ services:
       - "64099:80"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - "./Components/:/components"
 
   xerodemo.payment.api:
     environment:

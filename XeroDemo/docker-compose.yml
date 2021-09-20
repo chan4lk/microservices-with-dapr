@@ -6,13 +6,24 @@ services:
     build:
       context: .
       dockerfile: Identity/XeroDemo.Identity.Web/Dockerfile
+    depends_on:
+      - redis
+      - placement
+    networks:
+      - xero-network
 
   xerodemo.identity.web-dapr:
     image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "xerodemo.identity.web", "-app-port", "443" ]
+    command: ["./daprd",
+     "-app-id", "xerodemoidentityweb",
+     "-app-port", "443",
+     "-placement-host-address", "placement:50006",
+     "-components-path", "/components"]
     depends_on:
       - xerodemo.identity.web
     network_mode: "service:xerodemo.identity.web"
+    volumes:
+        - "./Components/:/components"
 
   xerodemo.planner.api:
     image: ${DOCKER_REGISTRY-}xerodemoplannerapi
@@ -25,13 +36,24 @@ services:
     build:
       context: .
       dockerfile: TenentService/XeroDemo.TenentService.Api/Dockerfile
+    depends_on:
+      - redis
+      - placement
+    networks:
+      - xero-network
 
   xerodemo.tenent.api-dapr:
     image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "xerodemo.tenent.api", "-app-port", "80" ]
+    command: ["./daprd",
+     "-app-id", "xerodemotenentapi",
+     "-app-port", "80",
+     "-placement-host-address", "placement:50006",
+     "-components-path", "/components"]
     depends_on:
       - xerodemo.tenent.api
     network_mode: "service:xerodemo.tenent.api"
+    volumes:
+        - "./Components/:/components"
 
   xerodemo.payment.api:
     image: ${DOCKER_REGISTRY-}xerodemopaymentapi
@@ -44,3 +66,25 @@ services:
     build:
       context: .
       dockerfile: Web/XeroDemo.Web.Planner/Dockerfile
+
+ ############################
+  # Dapr placement service
+  ############################
+  placement:
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      - xero-network
+  ############################
+  # Redis state store
+  ############################
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6380:6379"
+    networks:
+      - xero-network
+networks:
+    xero-network:

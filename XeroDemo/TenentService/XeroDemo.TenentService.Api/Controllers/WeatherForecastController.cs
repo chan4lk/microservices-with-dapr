@@ -25,13 +25,13 @@ namespace XeroDemo.TenentService.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<WeatherForecast>> Get()
         {
-            var token = await _daprClient.GetStateAsync<TokenResponse>("statestore", "token");
+            var token = await _daprClient.GetStateAsync<string>("statestore", "token");
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = Random.Shared.Next(-20, 55),
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)],
-                IdToken = token.IdToken,
+                IdToken = token,
             })
             .ToArray();
         }
