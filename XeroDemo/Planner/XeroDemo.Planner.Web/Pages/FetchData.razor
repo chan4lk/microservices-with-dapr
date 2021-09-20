@@ -3,7 +3,8 @@
 <PageTitle>Weather forecast</PageTitle>
 
 @using XeroDemo.Planner.Web.Data
-@inject WeatherForecastService ForecastService
+@using Dapr.Client
+@inject DaprClient daprClient
 
 <h1>Weather forecast</h1>
 
@@ -39,10 +40,13 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private IEnumerable<WeatherForecast>? forecasts;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        forecasts = await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(
+                HttpMethod.Get,
+                "xerodemoplannerapi",
+                "weatherforecast");
     }
 }

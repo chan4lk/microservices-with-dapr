@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace XeroDemo.Planner.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -19,6 +18,7 @@ namespace XeroDemo.Planner.Api.Controllers
         }
 
         [HttpGet]
+        [Route("/weatherforecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

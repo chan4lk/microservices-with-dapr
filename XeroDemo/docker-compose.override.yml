@@ -12,7 +12,6 @@ services:
       - "64097:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-      - "./Components/:/components"
 
   xerodemo.planner.api:
     environment:
@@ -31,7 +30,6 @@ services:
       - "64099:80"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-      - "./Components/:/components"
 
   xerodemo.payment.api:
     environment:
@@ -45,6 +43,7 @@ services:
   xerodemo.planner.web:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
     ports:
-      - "80"
+      - "64094:80"
 

@@ -30,6 +30,24 @@ services:
     build:
       context: .
       dockerfile: Planner/XeroDemo.Planner.Api/Dockerfile
+    depends_on:
+      - redisdb
+      - placement
+    networks:
+      - xero-network
+
+  xerodemo.planner.api-dapr:
+    image: "daprio/daprd:latest"
+    command: ["./daprd",
+     "-app-id", "xerodemoplannerapi",
+     "-app-port", "80",
+     "-placement-host-address", "placement:50006",
+     "-components-path", "/components"]
+    depends_on:
+      - xerodemo.planner.api
+    network_mode: "service:xerodemo.planner.api"
+    volumes:
+        - "./Components/:/components"
 
   xerodemo.tenent.api:
     image: ${DOCKER_REGISTRY-}xerodemotenentapi
@@ -85,6 +103,24 @@ services:
     build:
       context: .
       dockerfile: Planner/XeroDemo.Planner.Web/Dockerfile
+    depends_on:
+      - redisdb
+      - placement
+    networks:
+      - xero-network
+
+  xerodemo.planner.web-dapr:
+    image: "daprio/daprd:latest"
+    command: ["./daprd",
+     "-app-id", "xerodemoplannerweb",
+     "-app-port", "80",
+     "-placement-host-address", "placement:50006",
+     "-components-path", "/components"]
+    depends_on:
+      - xerodemo.planner.web
+    network_mode: "service:xerodemo.planner.web"
+    volumes:
+        - "./Components/:/components"
 
 networks:
     xero-network:
