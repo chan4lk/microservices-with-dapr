@@ -7,6 +7,13 @@ services:
       context: .
       dockerfile: Identity/XeroDemo.Identity.Web/Dockerfile
 
+  xerodemo.identity.web-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "xerodemo.identity.web", "-app-port", "443" ]
+    depends_on:
+      - xerodemo.identity.web
+    network_mode: "service:xerodemo.identity.web"
+
   xerodemo.planner.api:
     image: ${DOCKER_REGISTRY-}xerodemoplannerapi
     build:
@@ -18,6 +25,13 @@ services:
     build:
       context: .
       dockerfile: TenentService/XeroDemo.TenentService.Api/Dockerfile
+
+  xerodemo.tenent.api-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "xerodemo.tenent.api", "-app-port", "80" ]
+    depends_on:
+      - xerodemo.tenent.api
+    network_mode: "service:xerodemo.tenent.api"
 
   xerodemo.payment.api:
     image: ${DOCKER_REGISTRY-}xerodemopaymentapi

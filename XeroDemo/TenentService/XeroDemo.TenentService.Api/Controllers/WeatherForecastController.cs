@@ -1,4 +1,6 @@
+using Dapr.Client;
 using Microsoft.AspNetCore.Mvc;
+using XeroDemo.TenentService.Api.Models;
 
 namespace XeroDemo.TenentService.Api.Controllers
 {
@@ -12,20 +14,24 @@ namespace XeroDemo.TenentService.Api.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly DaprClient _daprClient;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, DaprClient daprClient)
         {
             _logger = logger;
+            this._daprClient = daprClient;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
+            var token = await _daprClient.GetStateAsync<TokenResponse>("statestore", "token");
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)],
+                IdToken = token.IdToken,
             })
             .ToArray();
         }

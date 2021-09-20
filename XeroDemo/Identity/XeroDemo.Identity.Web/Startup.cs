@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using Dapr.Client;
 using IdentityServer4;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -33,7 +34,7 @@ namespace XeroDemo.Identity.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddDapr();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
@@ -107,9 +108,10 @@ namespace XeroDemo.Identity.Web
 
         private static Func<TokenValidatedContext, Task> OnTokenValidated()
         {
-            return context =>
+            return async context =>
             {
                 var logger = context.HttpContext.RequestServices.GetService<ILogger<Startup>>();
+                var daprClient = context.HttpContext.RequestServices.GetService<DaprClient>();
 
                 var token = new
                 {
@@ -120,7 +122,8 @@ namespace XeroDemo.Identity.Web
 
                 logger.LogInformation("@token", token);
 
-                return Task.CompletedTask;
+                await daprClient.SaveStateAsync("statestore", "token", context.TokenEndpointResponse);
+
             };
         }
 
