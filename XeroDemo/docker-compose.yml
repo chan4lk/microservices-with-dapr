@@ -9,6 +9,7 @@ services:
     depends_on:
       - redisdb
       - placement
+      - idenitityDb
     networks:
       - xero-network
 
@@ -121,6 +122,14 @@ services:
     network_mode: "service:xerodemo.planner.web"
     volumes:
         - "./Components/:/components"
+
+  idenitityDb:
+        image: "mcr.microsoft.com/mssql/server:2019-latest"
+        environment:
+            SA_PASSWORD: "Your_password123"
+            ACCEPT_EULA: "Y"
+        networks:
+            - xero-network
 
 networks:
     xero-network:

@@ -37,7 +37,7 @@ namespace XeroDemo.Identity.Web
             services.AddControllersWithViews().AddDapr();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -79,6 +79,7 @@ namespace XeroDemo.Identity.Web
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
+                options.Scope.Add("workflowmax");
                 options.Events = new OpenIdConnectEvents
                 {
                     OnTokenValidated = OnTokenValidated()

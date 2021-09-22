@@ -6,6 +6,7 @@ using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace XeroDemo.Identity.Web
             var services = new ServiceCollection();
             services.AddLogging();
             services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlite(connectionString));
+               options.UseSqlServer(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -32,74 +33,88 @@ namespace XeroDemo.Identity.Web
             {
                 using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-                    context.Database.Migrate();
-
-                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                    var alice = userMgr.FindByNameAsync("alice").Result;
-                    if (alice == null)
+                    try
                     {
-                        alice = new ApplicationUser
-                        {
-                            UserName = "alice",
-                            Email = "AliceSmith@email.com",
-                            EmailConfirmed = true,
-                        };
-                        var result = userMgr.CreateAsync(alice, "Pass123$").Result;
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
-                        }
 
-                        result = userMgr.AddClaimsAsync(alice, new Claim[]{
+                        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                        context.Database.Migrate();
+
+                        var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                        var alice = userMgr.FindByNameAsync("alice").Result;
+                        if (alice == null)
+                        {
+                            alice = new ApplicationUser
+                            {
+                                UserName = "alice",
+                                Email = "AliceSmith@email.com",
+                                EmailConfirmed = true,
+                            };
+                            var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+                            if (!result.Succeeded)
+                            {
+                                throw new Exception(result.Errors.First().Description);
+                            }
+
+                            result = userMgr.AddClaimsAsync(alice, new Claim[]{
                             new Claim(JwtClaimTypes.Name, "Alice Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Alice"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
                             new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
                         }).Result;
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
+                            if (!result.Succeeded)
+                            {
+                                throw new Exception(result.Errors.First().Description);
+                            }
+                            Log.Debug("alice created");
                         }
-                        Log.Debug("alice created");
-                    }
-                    else
-                    {
-                        Log.Debug("alice already exists");
-                    }
-
-                    var bob = userMgr.FindByNameAsync("bob").Result;
-                    if (bob == null)
-                    {
-                        bob = new ApplicationUser
+                        else
                         {
-                            UserName = "bob",
-                            Email = "BobSmith@email.com",
-                            EmailConfirmed = true
-                        };
-                        var result = userMgr.CreateAsync(bob, "Pass123$").Result;
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
+                            Log.Debug("alice already exists");
                         }
 
-                        result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                        var bob = userMgr.FindByNameAsync("bob").Result;
+                        if (bob == null)
+                        {
+                            bob = new ApplicationUser
+                            {
+                                UserName = "bob",
+                                Email = "BobSmith@email.com",
+                                EmailConfirmed = true
+                            };
+                            var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                            if (!result.Succeeded)
+                            {
+                                throw new Exception(result.Errors.First().Description);
+                            }
+
+                            result = userMgr.AddClaimsAsync(bob, new Claim[]{
                             new Claim(JwtClaimTypes.Name, "Bob Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
                             new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
                             new Claim("location", "somewhere")
                         }).Result;
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
+                            if (!result.Succeeded)
+                            {
+                                throw new Exception(result.Errors.First().Description);
+                            }
+                            Log.Debug("bob created");
                         }
-                        Log.Debug("bob created");
+                        else
+                        {
+                            Log.Debug("bob already exists");
+                        }
+
+                        context.SaveChangesAsync().Wait();
+
+
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        Log.Debug("bob already exists");
+                        var logger = scope.ServiceProvider.GetRequiredService<ILogger<ApplicationDbContext>>();
+                        logger.LogError(ex, "An error occurred while migrating the database.");
                     }
+
                 }
             }
         }

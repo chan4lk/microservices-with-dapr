@@ -5,13 +5,16 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/aspnetapp.pfx
       - Xero__ClientId=9352203A44934F10AB1AE6C4EDFE67A2
       - Xero__ClientSecret=Vh18QLA65yJXDsew76G4Wg8a1V44ypw73-FReC_R0ntisHam
+      - ConnectionStrings__DefaultConnection=Server=idenitityDb;Database=Identity02;User=sa;Password=Your_password123;
     ports:
       - "64096:80"
       - "64097:443"
     volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${USERPROFILE}/.aspnet/https:/root/.aspnet/https:ro
 
   xerodemo.planner.api:
     environment:
@@ -19,8 +22,6 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "64098:80"
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   xerodemo.tenent.api:
     environment:
@@ -28,8 +29,6 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "64099:80"
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   xerodemo.payment.api:
     environment:
@@ -37,8 +36,6 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "64095:80"
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   xerodemo.planner.web:
     environment:
@@ -46,4 +43,11 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "64094:80"
+
+  idenitityDb:
+    environment:
+      - SA_PASSWORD=Your_password123
+      - ACCEPT_EULA=Y
+    networks:
+        - xero-network
 
